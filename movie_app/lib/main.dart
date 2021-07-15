@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/pages/home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movie_app/pages/main_page.dart';
+
+import 'pages/splash_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(SplashPage(
+      onInitializationComplete: () => runApp(ProviderScope(child: MyApp()))));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,8 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      routes: {"home": (BuildContext context) => HomePage()},
+      debugShowCheckedModeBanner: false,
+      initialRoute: "home",
+      routes: {"home": (BuildContext context) => MainPage()},
     );
   }
 }
