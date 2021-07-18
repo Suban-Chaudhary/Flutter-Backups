@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movie_app/models/movie.dart';
 import 'package:movie_app/models/search_category.dart';
 
 class MainPage extends ConsumerWidget {
@@ -57,14 +58,19 @@ class MainPage extends ConsumerWidget {
 
   Widget _foregroundWidget() {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, _deviceHeight * 0.1, 0, 0),
-      width: _deviceWidth * 0.88,
+      padding: EdgeInsets.fromLTRB(0, _deviceHeight * 0.02, 0, 0),
+      width: _deviceHeight * 0.88,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _topBarWidget(),
+          Container(
+            height: _deviceHeight * 0.83,
+            padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
+            child: _moviesListViewWidget(),
+          ),
         ],
       ),
     );
@@ -151,5 +157,44 @@ class MainPage extends ConsumerWidget {
       ),
       onChanged: (_value) {},
     );
+  }
+
+  Widget _moviesListViewWidget() {
+    List<Movie> _movies = [];
+    for (var i = 0; i < 20; i++) {
+      _movies.add(
+        Movie(
+          name: "Hello World",
+          backdropPath: "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg",
+          language: "EN",
+          description:
+              "Hello world is the tutorial movie for every programmers and everyone start their journery from hello world only",
+          isAdult: false,
+          rating: 4.7,
+          releaseDate: "2021/01/21",
+          posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
+        ),
+      );
+    }
+    if (_movies.length != 0) {
+      return ListView.builder(
+        itemCount: _movies.length,
+        itemBuilder: (BuildContext _context, int _count) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
+            child: GestureDetector(
+              onTap: () => {},
+              child: Text("${_movies[_count].name}"),
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ),
+      );
+    }
   }
 }
