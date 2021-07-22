@@ -68,7 +68,7 @@ class MainPage extends ConsumerWidget {
         children: <Widget>[
           _topBarWidget(),
           Container(
-            height: _deviceHeight * 0.83,
+            height: _deviceHeight * 0.9,
             padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
             child: _moviesListViewWidget(),
           ),
