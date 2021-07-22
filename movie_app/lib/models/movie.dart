@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movie_app/models/app_config.dart';
 
 class Movie {
-  final String? name;
+  final String name;
   final String? language;
   final bool? isAdult;
   final String? description;
@@ -12,7 +12,7 @@ class Movie {
   final String? releaseDate;
 
   Movie(
-      {this.name,
+      {required this.name,
       this.language,
       this.isAdult,
       this.description,

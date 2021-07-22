@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_app/models/movie.dart';
 import 'package:movie_app/models/search_category.dart';
+import 'package:movie_app/widgets/movie_tile.dart';
 
 class MainPage extends ConsumerWidget {
   late double _deviceHeight;
@@ -59,7 +60,7 @@ class MainPage extends ConsumerWidget {
   Widget _foregroundWidget() {
     return Container(
       padding: EdgeInsets.fromLTRB(0, _deviceHeight * 0.02, 0, 0),
-      width: _deviceHeight * 0.88,
+      width: _deviceWidth * 0.88,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -168,7 +169,7 @@ class MainPage extends ConsumerWidget {
           backdropPath: "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg",
           language: "EN",
           description:
-              "Hello world is the tutorial movie for every programmers and everyone start their journery from hello world only",
+              "Hello world is the tutorial movie for every programmers and everyone start their journery from hello world only Quis anim nulla elit ad ad. Aliquip fugiat aliquip laborum tempor ex eu id nulla consectetur exercitation aliqua et. Ad officia non ut deserunt voluptate ex commodo Lorem id sit esse velit. Mollit nisi aute ut nostrud laborum. Do esse dolor officia velit pariatur pariatur minim commodo do veniam.",
           isAdult: false,
           rating: 4.7,
           releaseDate: "2021/01/21",
@@ -184,7 +185,11 @@ class MainPage extends ConsumerWidget {
             padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
             child: GestureDetector(
               onTap: () => {},
-              child: Text("${_movies[_count].name}"),
+              child: MovieTile(
+                width: _deviceWidth * 0.85,
+                height: _deviceHeight * 0.20,
+                movie: _movies[_count],
+              ),
             ),
           );
         },
