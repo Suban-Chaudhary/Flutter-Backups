@@ -19,16 +19,18 @@ class MainPage extends ConsumerWidget {
   }
 
   Widget _buildUI() {
-    return Scaffold(
-      body: Container(
-        height: _deviceHeight,
-        width: _deviceWidth,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            _backgroundWidget(),
-            _foregroundWidget(),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          height: _deviceHeight,
+          width: _deviceWidth,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              _backgroundWidget(),
+              _foregroundWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -68,7 +70,7 @@ class MainPage extends ConsumerWidget {
         children: <Widget>[
           _topBarWidget(),
           Container(
-            height: _deviceHeight * 0.9,
+            height: _deviceHeight * 0.85,
             padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
             child: _moviesListViewWidget(),
           ),
