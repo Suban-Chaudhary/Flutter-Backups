@@ -47,16 +47,16 @@ class _MobileInputState extends State<MobileInput> {
             width: 10.0,
           ),
           //takes phone number as input
-          Expanded(
-            child: EntryField(
-              controller: _controller,
-              keyboardType: TextInputType.number,
-              readOnly: false,
-              hint: AppLocalizations.of(context).mobileText,
-              maxLength: 10,
-              border: InputBorder.none,
-            ),
-          ),
+          // Expanded(
+          //   child: EntryField(
+          //     controller: _controller,
+          //     keyboardType: TextInputType.number,
+          //     readOnly: false,
+          //     hint: AppLocalizations.of(context).mobileText,
+          //     maxLength: 10,
+          //     border: InputBorder.none,
+          //   ),
+          // ),
 
           //if phone number
           // is valid, button gets enabled and takes to register screen

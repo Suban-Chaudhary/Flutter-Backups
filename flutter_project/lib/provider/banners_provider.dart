@@ -5,9 +5,9 @@ import 'package:hungerz/data/model/response/base/api_response.dart';
 import 'package:hungerz/data/model/response/product_model.dart';
 import 'package:hungerz/data/repository/banner_repo.dart';
 
-class BannersProvider extends StateNotifier<List<BannerModel>> {
+class BannerNotifier extends StateNotifier<List<BannerModel>> {
   final BannerRepo bannerRepo;
-  BannersProvider({@required this.bannerRepo}) : super(null);
+  BannerNotifier({@required this.bannerRepo}) : super(<BannerModel>[]);
 
   List<BannerModel> _bannerList;
   List<Product> _productList = [];

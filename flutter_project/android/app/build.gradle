@@ -45,10 +45,11 @@ android {
 
     defaultConfig {
         applicationId "com.flutter.hungerz"
-        minSdkVersion 16
+        minSdkVersion 20
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     signingConfigs {
