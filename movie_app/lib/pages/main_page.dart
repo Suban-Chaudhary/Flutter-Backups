@@ -13,12 +13,18 @@ final mainPageDataControllerProvider =
   return MainPageDataController();
 });
 
+final selectedMoviePosterURLProvider = StateProvider<String>((ref) {
+  final _movies = ref.watch(mainPageDataControllerProvider).movies;
+  return _movies.length != 0 ? _movies[0].posterUrl() : "";
+});
+
 class MainPage extends ConsumerWidget {
   late double _deviceHeight;
   late double _deviceWidth;
   TextEditingController _searchTextFieldController = TextEditingController();
   late MainPageDataController _mainPageDataController;
   late MainPageData _mainPageData;
+  var _selectedMoviePosterURL;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
@@ -26,6 +32,8 @@ class MainPage extends ConsumerWidget {
     _deviceWidth = MediaQuery.of(context).size.width;
     _mainPageDataController = watch(mainPageDataControllerProvider.notifier);
     _mainPageData = watch(mainPageDataControllerProvider);
+    _searchTextFieldController.text = _mainPageData.searchText;
+    _selectedMoviePosterURL = watch(selectedMoviePosterURLProvider);
     return _buildUI();
   }
 
@@ -48,44 +56,53 @@ class MainPage extends ConsumerWidget {
   }
 
   Widget _backgroundWidget() {
-    return Container(
-      height: _deviceHeight,
-      width: _deviceWidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(
-              "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGhvdG9ncmFwaHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"),
-        ),
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.2),
+    if (_selectedMoviePosterURL.state != "") {
+      return Container(
+        height: _deviceHeight,
+        width: _deviceWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(_selectedMoviePosterURL.state),
           ),
         ),
-      ),
-    );
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.2),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        height: _deviceHeight,
+        width: _deviceWidth,
+        color: Colors.black,
+      );
+    }
   }
 
   Widget _foregroundWidget() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, _deviceHeight * 0.02, 0, 0),
-      width: _deviceWidth * 0.88,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          _topBarWidget(),
-          Container(
-            height: _deviceHeight * 0.85,
-            padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
-            child: _moviesListViewWidget(),
-          ),
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(0, _deviceHeight * 0.02, 0, 0),
+        width: _deviceWidth * 0.88,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            _topBarWidget(),
+            Container(
+              height: _deviceHeight * 0.85,
+              padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
+              child: _moviesListViewWidget(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -116,15 +133,14 @@ class MainPage extends ConsumerWidget {
       height: _deviceHeight * 0.05,
       child: TextField(
         controller: _searchTextFieldController,
-        onSubmitted: (_input) {},
+        onSubmitted: (_input) =>
+            _mainPageDataController.updateTextString(_input),
         style: TextStyle(
           color: Colors.white,
         ),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10.0),
           focusedBorder: _border,
           border: _border,
-          prefix: Icon(Icons.search, color: Colors.white24),
           hintStyle: TextStyle(color: Colors.white54),
           filled: false,
           fillColor: Colors.white24,
@@ -137,7 +153,7 @@ class MainPage extends ConsumerWidget {
   Widget _categorySelectionWidget() {
     return DropdownButton(
       dropdownColor: Colors.black38,
-      value: SearchCategory.popular,
+      value: _mainPageData.searchCategory,
       icon: Icon(
         Icons.menu,
         color: Colors.white24,
@@ -169,43 +185,48 @@ class MainPage extends ConsumerWidget {
         height: 1,
         color: Colors.white24,
       ),
-      onChanged: (_value) {},
+      onChanged: (_value) {
+        _value.toString().isNotEmpty
+            ? _mainPageDataController.updateSearchCategory(_value.toString())
+            : null;
+      },
     );
   }
 
   Widget _moviesListViewWidget() {
     List<Movie> _movies = _mainPageData.movies;
-    // for (var i = 0; i < 20; i++) {
-    //   _movies.add(
-    //     Movie(
-    //       name: "Hello World",
-    //       backdropPath: "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg",
-    //       language: "EN",
-    //       description:
-    //           "Hello world is the tutorial movie for every programmers and everyone start their journery from hello world only Quis anim nulla elit ad ad. Aliquip fugiat aliquip laborum tempor ex eu id nulla consectetur exercitation aliqua et. Ad officia non ut deserunt voluptate ex commodo Lorem id sit esse velit. Mollit nisi aute ut nostrud laborum. Do esse dolor officia velit pariatur pariatur minim commodo do veniam.",
-    //       isAdult: false,
-    //       rating: 4.7,
-    //       releaseDate: "2021/01/21",
-    //       posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-    //     ),
-    //   );
-    // }
     if (_movies.length != 0) {
-      return ListView.builder(
-        itemCount: _movies.length,
-        itemBuilder: (BuildContext _context, int _count) {
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
-            child: GestureDetector(
-              onTap: () => {},
-              child: MovieTile(
-                width: _deviceWidth * 0.85,
-                height: _deviceHeight * 0.20,
-                movie: _movies[_count],
-              ),
-            ),
-          );
+      return NotificationListener(
+        onNotification: (notification) {
+          if (notification is ScrollNotification) {
+            final before = notification.metrics.extentBefore;
+            final max = notification.metrics.maxScrollExtent;
+            if (before == max) {
+              _mainPageDataController.getMovies();
+              return true;
+            }
+            return false;
+          }
+          return false;
         },
+        child: ListView.builder(
+          itemCount: _movies.length,
+          itemBuilder: (BuildContext _context, int _count) {
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: _deviceHeight * 0.01),
+              child: GestureDetector(
+                onTap: () => {
+                  _selectedMoviePosterURL.state = _movies[_count].posterUrl(),
+                },
+                child: MovieTile(
+                  width: _deviceWidth * 0.85,
+                  height: _deviceHeight * 0.20,
+                  movie: _movies[_count],
+                ),
+              ),
+            );
+          },
+        ),
       );
     } else {
       return Center(
