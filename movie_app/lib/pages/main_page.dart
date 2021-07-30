@@ -2,19 +2,30 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movie_app/controllers/main_page_data_controller.dart';
+import 'package:movie_app/models/main_page_data.dart';
 import 'package:movie_app/models/movie.dart';
 import 'package:movie_app/models/search_category.dart';
 import 'package:movie_app/widgets/movie_tile.dart';
+
+final mainPageDataControllerProvider =
+    StateNotifierProvider<MainPageDataController, MainPageData>((ref) {
+  return MainPageDataController();
+});
 
 class MainPage extends ConsumerWidget {
   late double _deviceHeight;
   late double _deviceWidth;
   TextEditingController _searchTextFieldController = TextEditingController();
+  late MainPageDataController _mainPageDataController;
+  late MainPageData _mainPageData;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+    _mainPageDataController = watch(mainPageDataControllerProvider.notifier);
+    _mainPageData = watch(mainPageDataControllerProvider);
     return _buildUI();
   }
 
@@ -163,22 +174,22 @@ class MainPage extends ConsumerWidget {
   }
 
   Widget _moviesListViewWidget() {
-    List<Movie> _movies = [];
-    for (var i = 0; i < 20; i++) {
-      _movies.add(
-        Movie(
-          name: "Hello World",
-          backdropPath: "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg",
-          language: "EN",
-          description:
-              "Hello world is the tutorial movie for every programmers and everyone start their journery from hello world only Quis anim nulla elit ad ad. Aliquip fugiat aliquip laborum tempor ex eu id nulla consectetur exercitation aliqua et. Ad officia non ut deserunt voluptate ex commodo Lorem id sit esse velit. Mollit nisi aute ut nostrud laborum. Do esse dolor officia velit pariatur pariatur minim commodo do veniam.",
-          isAdult: false,
-          rating: 4.7,
-          releaseDate: "2021/01/21",
-          posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
-        ),
-      );
-    }
+    List<Movie> _movies = _mainPageData.movies;
+    // for (var i = 0; i < 20; i++) {
+    //   _movies.add(
+    //     Movie(
+    //       name: "Hello World",
+    //       backdropPath: "/dq18nCTTLpy9PmtzZI6Y2yAgdw5.jpg",
+    //       language: "EN",
+    //       description:
+    //           "Hello world is the tutorial movie for every programmers and everyone start their journery from hello world only Quis anim nulla elit ad ad. Aliquip fugiat aliquip laborum tempor ex eu id nulla consectetur exercitation aliqua et. Ad officia non ut deserunt voluptate ex commodo Lorem id sit esse velit. Mollit nisi aute ut nostrud laborum. Do esse dolor officia velit pariatur pariatur minim commodo do veniam.",
+    //       isAdult: false,
+    //       rating: 4.7,
+    //       releaseDate: "2021/01/21",
+    //       posterPath: "/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg",
+    //     ),
+    //   );
+    // }
     if (_movies.length != 0) {
       return ListView.builder(
         itemCount: _movies.length,
