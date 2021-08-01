@@ -5,8 +5,15 @@ import 'package:movie_app/pages/main_page.dart';
 import 'pages/splash_page.dart';
 
 void main() {
-  runApp(SplashPage(
-      onInitializationComplete: () => runApp(ProviderScope(child: MyApp()))));
+  runApp(
+    SplashPage(
+      onInitializationComplete: () => runApp(
+        ProviderScope(
+          child: MyApp(),
+        ),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
