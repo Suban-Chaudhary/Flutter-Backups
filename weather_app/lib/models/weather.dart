@@ -8,6 +8,17 @@ class WeatherInfo {
   int? timezone;
   int? name;
 
+  WeatherInfo({
+    this.weather,
+    this.coord,
+    this.sys,
+    this.main,
+    this.base,
+    this.visibility,
+    this.timezone,
+    this.name,
+  });
+
   WeatherInfo.fromJson(Map<dynamic, dynamic> json) {
     if (json["weather"] != null) {
       json["weather"].forEach((val) {

@@ -9,8 +9,8 @@ class HTTPService {
   String? baseApiUrl;
   HTTPService() {
     AppConfig _appConfig = getIt.get<AppConfig>();
-    this.apiKey = _appConfig.apiKey;
-    this.baseApiUrl = _appConfig.baseApiUrl;
+    apiKey = _appConfig.apiKey;
+    baseApiUrl = _appConfig.baseApiUrl;
   }
 
   Future<Response> get(String path, {Map<String, dynamic>? query}) async {

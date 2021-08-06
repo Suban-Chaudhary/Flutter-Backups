@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:weather_app/models/app_config.dart';
 import 'package:weather_app/services/http_service.dart';
+import 'package:weather_app/services/weather_service.dart';
 
 class LoadingPage extends StatefulWidget {
   final VoidCallback onInitializationComplete;
@@ -35,6 +36,7 @@ class _LoadingPageState extends State<LoadingPage> {
       ),
     );
     getIt.registerSingleton<HTTPService>(HTTPService());
+    getIt.registerSingleton<WeatherService>(WeatherService());
   }
 
   @override
