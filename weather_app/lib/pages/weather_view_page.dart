@@ -1,26 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:weather_app/controllers/weather_page_data_controller.dart';
-import 'package:weather_app/models/weather_page_data.dart';
-import 'package:weather_app/widgets/display_weather_information.dart';
-import 'package:weather_app/widgets/display_weather_information_latest_week.dart';
-import 'package:weather_app/widgets/search_weather_by_city.dart';
 
-final weatherPageDataControllerProvider =
-    StateNotifierProvider<WeatherPageDataController, WeatherPageData>((ref) {
-  return WeatherPageDataController();
-});
-
-class WeatherViewPage extends StatefulWidget {
-  const WeatherViewPage({Key? key}) : super(key: key);
-
+class WeatherViewPage extends ConsumerWidget {
+  final TextEditingController searchFieldController = TextEditingController();
   @override
-  _WeatherViewPageState createState() => _WeatherViewPageState();
-}
-
-class _WeatherViewPageState extends State<WeatherViewPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.teal,
       appBar: AppBar(
@@ -29,17 +15,35 @@ class _WeatherViewPageState extends State<WeatherViewPage> {
         title: Text("Weather Application"),
         backgroundColor: Colors.teal[600],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              SearchWeatherByCity(),
-              DisplayWeatherInformation(),
-              DisplayWeatherInformationLatestWeek(),
-            ],
-          ),
+      body: Container(
+        height: height,
+        width: width,
+        child: Column(
+          children: [
+            _searchField(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _searchField() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+      width: double.infinity,
+      height: 50,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50), color: Colors.white),
+      child: TextField(
+        controller: searchFieldController,
+        style: TextStyle(
+          color: Colors.teal,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
+          border: InputBorder.none,
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/weather_info.dart';
 import 'package:weather_app/services/http_service.dart';
 
 class WeatherService {
@@ -12,11 +12,11 @@ class WeatherService {
 
   Future<WeatherInfo> getWeatherInfo({String? cityName}) async {
     Response _response = await http!.get("/weather", query: {
-      "id": "Kathmandu",
+      "q": cityName,
     });
     if (_response.statusCode == 200) {
-      Map _data = _response.data;
-      print(WeatherInfo.fromJson(_data));
+      Map _data = await _response.data;
+      print(_data);
       return WeatherInfo.fromJson(_data);
     } else {
       throw Exception("Could not load the data");

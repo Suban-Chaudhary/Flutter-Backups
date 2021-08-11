@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
-import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/weather_info.dart';
 import 'package:weather_app/models/weather_page_data.dart';
 import 'package:weather_app/services/weather_service.dart';
 
@@ -24,12 +24,14 @@ class WeatherPageDataController extends StateNotifier<WeatherPageData> {
   }
 
   void updateTextString(String _searchText) {
-    try {
-      state = state.copyWith(
-          weatherInfo: state.weatherInfo, searchText: _searchText);
-      getWeather();
-    } catch (e) {
-      print(e);
+    if (_searchText != "") {
+      try {
+        state = state.copyWith(
+            weatherInfo: state.weatherInfo, searchText: _searchText);
+        getWeather();
+      } catch (e) {
+        print(e);
+      }
     }
   }
 }
