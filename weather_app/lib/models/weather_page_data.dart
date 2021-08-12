@@ -1,5 +1,7 @@
 import 'package:weather_app/models/weather_info.dart';
 
+import 'coord.dart';
+
 class WeatherPageData {
   WeatherInfo? weatherInfo;
   final String searchText;
@@ -12,10 +14,11 @@ class WeatherPageData {
   WeatherPageData.initial()
       : searchText = "",
         weatherInfo = WeatherInfo(
-          name: 0,
+          name: "",
           base: "",
-          timezone: 0,
-          visibility: 0,
+          timezone: null,
+          visibility: null,
+          coord: Coord(lat: 0, lon: 0),
         );
 
   WeatherPageData copyWith(

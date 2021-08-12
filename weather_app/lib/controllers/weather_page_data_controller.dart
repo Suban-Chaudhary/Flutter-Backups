@@ -7,17 +7,21 @@ import 'package:weather_app/services/weather_service.dart';
 class WeatherPageDataController extends StateNotifier<WeatherPageData> {
   WeatherPageDataController([WeatherPageData? state])
       : super(state ?? WeatherPageData.initial()) {
-    getWeather();
+    // getWeather();
   }
 
   final WeatherService weatherService = GetIt.instance.get<WeatherService>();
 
   Future<void> getWeather() async {
     try {
-      WeatherInfo weatherInfo =
-          await weatherService.getWeatherInfo(cityName: state.searchText);
-      state = state.copyWith(
-          weatherInfo: weatherInfo, searchText: state.searchText);
+      if (state.searchText != "") {
+        WeatherInfo weatherInfo =
+            await weatherService.getWeatherInfo(cityName: state.searchText);
+        state = state.copyWith(
+            weatherInfo: weatherInfo, searchText: state.searchText);
+      } else {
+        print("Nothing was passed in the search field");
+      }
     } catch (e) {
       print(e);
     }

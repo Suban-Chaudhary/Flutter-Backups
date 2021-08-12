@@ -19,7 +19,7 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 2)).then(
+    Future.delayed(Duration(microseconds: 1)).then(
       (_) => _setup().then(
         (_) => widget.onInitializationComplete(),
       ),

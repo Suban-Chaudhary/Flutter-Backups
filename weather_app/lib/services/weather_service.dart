@@ -17,6 +17,9 @@ class WeatherService {
     if (_response.statusCode == 200) {
       Map _data = await _response.data;
       print(_data);
+      final weatherinfo = WeatherInfo.fromJson(_data);
+      print(weatherinfo.name);
+
       return WeatherInfo.fromJson(_data);
     } else {
       throw Exception("Could not load the data");
