@@ -6,12 +6,12 @@ part of 'coord.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Coord _$CoordFromJson(Map json) => Coord(
+Coord _$CoordFromJson(Map<String, dynamic> json) => Coord(
       lon: (json['lon'] as num?)?.toDouble(),
       lat: (json['lat'] as num?)?.toDouble(),
     );
 
-Map _$CoordToJson(Coord instance) => {
+Map<String, dynamic> _$CoordToJson(Coord instance) => <String, dynamic>{
       'lon': instance.lon,
       'lat': instance.lat,
     };

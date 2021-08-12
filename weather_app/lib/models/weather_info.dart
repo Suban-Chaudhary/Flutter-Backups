@@ -1,31 +1,38 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:weather_app/models/sys.dart';
+import 'package:weather_app/models/temperature.dart';
+import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/wind.dart';
 
 import 'coord.dart';
 part 'weather_info.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class WeatherInfo {
-  // List<Weather>? weather;
+  List<Weather>? weather;
   Coord? coord;
-  // Sys? sys;
-  // Main? main;
+  Sys? sys;
+  Temperature? temp;
+  Wind? wind;
   String? base;
   int? visibility;
   int? timezone;
   String? name;
 
   WeatherInfo({
-    // this.weather,
+    this.weather,
     this.coord,
-    // this.sys,
-    // this.main,
+    this.sys,
+    this.temp,
+    this.wind,
     this.base,
     this.visibility,
     this.timezone,
     this.name,
   });
 
-  factory WeatherInfo.fromJson(Map json) => _$WeatherInfoFromJson(json);
+  factory WeatherInfo.fromJson(Map<String, dynamic> json) =>
+      _$WeatherInfoFromJson(json);
   Map toJson() => _$WeatherInfoToJson(this);
 
 //   factory WeatherInfo.fromJson(Map json) {

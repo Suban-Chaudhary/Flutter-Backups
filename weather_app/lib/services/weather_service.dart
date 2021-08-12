@@ -15,7 +15,7 @@ class WeatherService {
       "q": cityName,
     });
     if (_response.statusCode == 200) {
-      Map _data = await _response.data;
+      Map<String, dynamic> _data = await _response.data;
       print(_data);
       final weatherinfo = WeatherInfo.fromJson(_data);
       print(weatherinfo.name);

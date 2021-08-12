@@ -6,6 +6,6 @@ class Coord {
   double? lon;
   double? lat;
   Coord({this.lon, this.lat});
-  factory Coord.fromJson(Map json) => _$CoordFromJson(json);
+  factory Coord.fromJson(Map<String, dynamic> json) => _$CoordFromJson(json);
   Map toJson() => _$CoordToJson(this);
 }
