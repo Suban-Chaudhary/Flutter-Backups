@@ -1,4 +1,8 @@
+import 'package:weather_app/models/sys.dart';
+import 'package:weather_app/models/temperature.dart';
+import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/models/weather_info.dart';
+import 'package:weather_app/models/wind.dart';
 
 import 'coord.dart';
 
@@ -18,7 +22,11 @@ class WeatherPageData {
           base: "",
           timezone: null,
           visibility: null,
-          coord: Coord(lat: 0, lon: 0),
+          coord: Coord(),
+          temp: Temperature(),
+          sys: Sys(),
+          weather: [],
+          wind: Wind(),
         );
 
   WeatherPageData copyWith(
